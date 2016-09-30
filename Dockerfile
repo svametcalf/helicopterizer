@@ -13,7 +13,11 @@ RUN apk add --update --no-cache \
     && curl -sL https://get.docker.com/builds/Linux/x86_64/docker-1.11.2 > /usr/bin/docker \
     && chmod +x /usr/bin/docker \
     && pip install --upgrade pip \
-    && pip install awscli
+    && pip install awscli \
+
+    && curl -L --insecure https://github.com/odise/go-cron/releases/download/v0.0.6/go-cron-linux.gz | zcat > /usr/local/bin/go-cron \
+    && chmod u+x /usr/local/bin/go-cron \
+    && apk del curl
 
 ADD ./scripts /scripts
 

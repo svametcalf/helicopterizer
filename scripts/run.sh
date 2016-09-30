@@ -60,7 +60,7 @@ case $1 in
             validationSpecificEnvs ${@}
             echo "Scheduling /scripts/run.sh ${@} with cron [CRON_SCHEDULE=$CRON_SCHEDULE]"
             #Set CRON_SCHEDULE=null to protect recursive scheduler.
-            echo -e "${CRON_SCHEDULE} CRON_SCHEDULE='' /scripts/run.sh ${@}" > /var/spool/cron/crontabs/root && crond -l 0 -f
+            exec env CRON_SCHEDULE="" go-cron "$CRON_SCHEDULE" /bin/sh /scripts/run.sh ${@}
             echo "OK - Cron Job Scheduled!"
          elif [ "$1" = "backup" ]; then
             #Run Backup.
@@ -75,4 +75,3 @@ case $1 in
         echo "Error: Invalid Parameter, Use (backup or restore)."
         exit 1
 esac
-
